@@ -60,6 +60,14 @@ library RingBuffer {
         return RB_RingBuffer(elems, n, read, write);
     } 
 
+    /**
+     * @notice Retrieves the oldest element from the ring buffer and removes it
+     * @param buf Ring buffer to read from
+     * @return New ring buffer and (previously) oldest element
+     * @dev Reverts if the ring buffer is exhausted
+     * @dev Time complexity of `O(1)`
+     * @dev Space complexity of `O(n)` (due to array copy)
+     */
     function pop(
         RB_RingBuffer memory buf
     ) public pure returns (
@@ -72,7 +80,7 @@ library RingBuffer {
         uint256 read;
         uint256 write;
 
-        if (buf.read == buf.write) {
+        if (buf.read == buf.write) { /* handle empty buffer */
             revert();
         } else {
             elems = buf.xs;
