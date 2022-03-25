@@ -24,8 +24,8 @@ contract RingBufferTest is DSTest {
         RingBuffer.RB_RingBuffer memory expected_buf = RingBuffer.RB_RingBuffer(
             expected_xs,
             some_len,
-            1,
-            0
+            0,
+            1
         );
 
         assertEq(actual_buf.xs[0], expected_buf.xs[0]);
