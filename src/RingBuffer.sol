@@ -25,6 +25,8 @@ library RingBuffer {
      * @param x New element to append
      * @return New ring buffer with appropriate changes made
      * @dev In the case of fullness, oldest data is overwritten first
+     * @dev Time complexity of `O(1)`
+     * @dev Time complexity of `O(n)` (due to array copy)
      */
     function push(
         RB_RingBuffer memory buf,
