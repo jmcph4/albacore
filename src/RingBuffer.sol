@@ -59,5 +59,29 @@ library RingBuffer {
         /* construct new RingBuffer instance */
         return RB_RingBuffer(elems, n, read, write);
     } 
+
+    function pop(
+        RB_RingBuffer memory buf
+    ) public pure returns (
+        RB_RingBuffer memory,
+        bytes32
+    ) {
+        /* new fields */
+        bytes32[] memory elems;
+        uint256 n;
+        uint256 read;
+        uint256 write;
+
+        if (buf.read == buf.write) {
+            revert();
+        } else {
+            elems = buf.xs;
+            n = buf.n;
+            read = buf.read + 1;
+            write = buf.write;
+        }
+
+        return (RB_RingBuffer(elems, n, read, write), buf.xs[read - 1]);
+    }
 }
 
