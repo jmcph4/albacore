@@ -9,6 +9,15 @@ library RingBuffer {
         uint256 read;       /* read offset (next read will occur from here) */
         uint256 write;      /* write offset (next write will occur here) */
     }
+    
+    /**
+     * @notice Initialises a new ring buffer instance
+     * @param length Maximum length of the new ring buffer
+     * @return Ring buffer of specified maximum length
+     */
+    function init(uint256 length) public pure returns (RB_RingBuffer memory) {
+        return RB_RingBuffer(new bytes32[](length), length, 0, 0);
+    }
 
     /**
      * @notice Appends a new element to the provided ring buffer
