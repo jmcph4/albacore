@@ -36,18 +36,21 @@ library RingBuffer {
         uint256 read;
         uint256 write;
 
-        /* handle full condition */
-        if (buf.write == buf.n) {
-            write = 0;
-        } else {
-            write = buf.write + 1;
-        }
-
         /* copy old elements */
         elems = buf.xs;
 
-        /* insert new element */
-        elems[write] = x;
+        /* handle full condition */
+        if (buf.write == buf.n) {
+            write = 1;
+
+            /* insert new element */
+            elems[0] = x;
+        } else {
+            write = buf.write + 1;
+
+            /* insert new element */
+            elems[write] = x;
+        }
 
         /* other fields remain unchanged */
         n = buf.n;
