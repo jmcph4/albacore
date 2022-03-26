@@ -73,4 +73,41 @@ contract RingBufferTest is DSTest {
         assertEq(actual_buf.read, expected_buf.read);
         assertEq(actual_buf.write, expected_buf.write);
     }
+
+    function testPopNormalFull() public {
+        uint256 some_len = 3; /* arbitrary */
+        bytes32[] memory some_elems = new bytes32[](some_len);
+        some_elems[0] = bytes32(uint256(1));
+        some_elems[1] = bytes32(uint256(2));
+        some_elems[2] = bytes32(uint256(3));
+
+        RingBuffer.RB_RingBuffer memory init_buf = RingBuffer.RB_RingBuffer(
+            some_elems,
+            some_len,
+            0,
+            3
+        );
+
+        (
+            RingBuffer.RB_RingBuffer memory actual_buf,
+            bytes32 actual_elem
+        ) = RingBuffer.pop(init_buf);
+
+        RingBuffer.RB_RingBuffer memory expected_buf = RingBuffer.RB_RingBuffer(
+            some_elems,
+            some_len,
+            1,
+            3
+        );
+
+        bytes32 expected_elem = some_elems[0];
+
+        assertEq(actual_elem, expected_elem);
+        assertEq(actual_buf.xs[0], expected_buf.xs[0]);
+        assertEq(actual_buf.xs[1], expected_buf.xs[1]);
+        assertEq(actual_buf.xs[2], expected_buf.xs[2]);
+        assertEq(actual_buf.n, expected_buf.n);
+        assertEq(actual_buf.read, expected_buf.read);
+        assertEq(actual_buf.write, expected_buf.write);
+    }
 }
