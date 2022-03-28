@@ -93,5 +93,41 @@ library RingBuffer {
 
         return (RB_RingBuffer(elems, n, read, write), buf.xs[read - 1]);
     }
+
+    /**
+     * @notice Determines if two ring buffers are equal
+     * @param a Ring buffer
+     * @param b Ring buffer
+     * @return Boolean indicating equality
+     * @dev Time complexity of `O(n)` (due to linear scan over the elements
+     *      arrays)
+     * @dev Space complexity of `O(1)`
+     */
+    function eq(
+        RB_RingBuffer memory a,
+        RB_RingBuffer memory b
+    ) public pure returns (bool) {
+        bool n_eq = a.n == b.n;
+        bool read_eq = a.read == b.read;
+        bool write_eq = a.write == b.write;
+
+        /* bounds check here prior to loop! */
+        if (!n_eq) {
+            return false;
+        }
+
+        bool xs_eq = true;
+
+        /* linear scan over elements on either side to check equality of the
+         * arrays */
+        for (uint256 i=0;i<a.n;i++) {
+            if (a.xs[i] != b.xs[i]) {
+                xs_eq = false;
+                break;
+            }
+        }
+
+        return xs_eq && n_eq && read_eq && write_eq;
+    }
 }
 
